@@ -4,6 +4,7 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Hashtable;
+import java.util.Stack;
 
 import graph.exception.InvalidConstructionException;
 
@@ -143,6 +144,48 @@ public class Graph<T> {
 		return null;
 	}
 
+	public Vertex<T> DFSearch(Vertex<T> start, T elm) {
+		if (elm == null || start == null)
+			throw new NullPointerException();
+		if (!adjacencyList.containsKey(start)) {
+			System.out.println("Search failed: invalid start vertex");
+			return null;
+		}
+		
+		setAllVisitedFalse(); 		//set v.visited = false for all nodes 
+		
+		Stack<T> S = new Stack<T>();		
+		S.push((T) start);				//push start onto Stack S
+		
+		start.setParent(null);		//set start.parents = null
+
+		while(!S.isEmpty()) {		//while Stack is not the empty set 
+			
+			Vertex<T> u = (Vertex<T>) S.pop(); //pop u from S
+			
+			if(u.getVisited() == false) {		//if u.visited == false
+				if (u.getData().equals(elm)) {		//if u contains the elm 
+					return u;
+				}
+			}
+			
+			u.setVisited(true);			//set u.visited = true
+			
+			ArrayList<Edge<T>> list = adjacencyList.get(u);
+			if (list == null)
+				continue;
+			
+			for(Edge<T> e: list) {		//for each v adjacent to u
+				Vertex<T> v = e.getAdjacentVertex(u);
+				if(v.getVisited() == false) {			//if v.visited = false
+					v.setParent(u);				//set v.parent = u
+					S.push((T) v);					//push v onto S 
+				}
+			}
+		}
+		return null;					//return null
+	}
+	
 	private void setAllVisitedFalse() {
 		for (Vertex<T> u : adjacencyList.keySet())
 			u.setVisited(false);
