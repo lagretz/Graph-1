@@ -123,6 +123,9 @@ public class GraphTest {
 
 			/* Find the vertex containing the integer */
 			Vertex<Integer> v = null;
+			Vertex<Integer> d = null;
+			
+			System.out.println("BFS Search ");
 			v = graph.BFSearch(startVertex, searchValue);
 			
 			if (v == null) {
@@ -132,6 +135,15 @@ public class GraphTest {
 				System.out.println("Element exists");
 			}
 
+			System.out.println("DFS Search ");
+			d = graph.DFSearch(startVertex, searchValue);
+			if (d == null) {
+				System.out.println("Element not found");
+			}
+			else {
+				System.out.println("Element exists");
+			}
+			
 			System.out.println("Press 'e' to exit or enter to continue: ");
 			String input = kb.nextLine();
 			if (input.equals("e"))
